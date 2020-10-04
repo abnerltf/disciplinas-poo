@@ -1,0 +1,7 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<header>
+    <a href="/Disciplinas/index.jsp">Início</a>
+    <a href="/Disciplinas/sobre.jsp">Sobre</a>
+    <a href="/Disciplinas/disciplinas.jsp">Minhas disciplinas</a>
+</header>

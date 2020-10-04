@@ -13,6 +13,7 @@
         <title>Início</title>
     </head>
     <body>
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
         <h1>Abner Lima Tavares de Freitas</h1>
         <h2>RA: 1290481913002</h2>
         <%= Disciplina.getList().size() %> disciplinas matriculadas

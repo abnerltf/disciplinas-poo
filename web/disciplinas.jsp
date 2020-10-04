@@ -33,6 +33,7 @@
         <title>Disciplinas</title>
     </head>
     <body>
+        <%@include file="WEB-INF/jspf/menu.jspf" %>
         <form>
             <table border="1">
                 <tr>
