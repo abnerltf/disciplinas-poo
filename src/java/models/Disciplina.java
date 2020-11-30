@@ -17,8 +17,15 @@ import static listeners.DbListener.getConnection;
  */
 public class Disciplina {
     
+    private String id;
     private String nome;
     private double nota;
+    
+    public Disciplina(String id, String nome, double nota) {
+        this.id = id;
+        this.nome = nome;
+        this.nota = nota;
+    }
     
     public Disciplina(String nome, double nota) {
         this.nome = nome;
@@ -47,12 +54,14 @@ public class Disciplina {
         try {
             con = getConnection();
             stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM disciplina");
+            ResultSet rs = stmt.executeQuery("SELECT rowid, * FROM disciplina");
             
             while(rs.next()) {
                 disciplinas.add(
-                    new Disciplina(rs.getString("nome"),
-                    rs.getDouble("nota")
+                    new Disciplina(
+                       rs.getString("rowid"),
+                       rs.getString("nome"),
+                       rs.getDouble("nota")
                 ));
             }
             
@@ -61,6 +70,10 @@ public class Disciplina {
         } 
         
         return disciplinas;
+    }
+
+    public String getId() {
+        return id;
     }
     
     public void create() {
@@ -72,6 +85,20 @@ public class Disciplina {
             stmt = con.prepareStatement("INSERT INTO disciplina(nome, nota) VALUES(?, ?)");
             stmt.setString(1, this.nome);
             stmt.setDouble(2, this.nota);
+            stmt.execute();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void remove() {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            con = getConnection();
+            stmt = con.prepareStatement("DELETE FROM disciplina WHERE rowid = ? ");
+            stmt.setString(1, this.id);
             stmt.execute();
         } catch (Exception e) {
             System.out.println(e.getMessage());
