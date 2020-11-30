@@ -5,26 +5,26 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="edu.fatecpg.poo.prova.Disciplina" %>
+<%@page import="models.Disciplina" %>
 <%@page import="java.util.ArrayList" %>
 <%
-    ArrayList<Disciplina> matriculadas = (ArrayList)application.getAttribute("matriculadas");
-    if (matriculadas == null) {
-        matriculadas = Disciplina.getList();
-        application.setAttribute("matriculadas", matriculadas);
-    }
+    ArrayList<Disciplina> matriculadas = Disciplina.getList();
+    String action = request.getParameter("action");
     
-    String[] notasAsStrings = request.getParameterValues("notas");
-    if (notasAsStrings != null){        
-        for (int i = 0; i < matriculadas.size(); i++) {
-            String notaAsString = notasAsStrings[i];
-            if (notaAsString.length() == 0) continue;
-            double nota = Double.valueOf(notaAsString);
-            matriculadas.get(i).setNota(nota);
+    if (action != null) {
+        String nome = request.getParameter("nome");
+        Double nota = Double.valueOf(request.getParameter("nota"));
+        
+        if (action.equals("criar")) {
+            Disciplina novaDisciplina = new Disciplina(nome, nota);
+            novaDisciplina.create();
+        } else if (action.equals("remover")) {
+            
         }
         
-        application.setAttribute("matriculadas", matriculadas);
+        
     }
+
 %>
 <!DOCTYPE html>
 <html>
@@ -50,6 +50,14 @@
             <% } %>
                 <tr><td><input type="submit" value="Enviar"></td></tr>
             </ŧable>
+            
+            <h1>Criar nova disciplina</h1>
+            <br/>
+            <form method="POST">
+                <input name="nome" type="text"  />
+                <input name="nota" type="number"  />
+                <input name="action" type="submit" value="criar" />
+            </form>
         </form>
     </body>
 </html>
